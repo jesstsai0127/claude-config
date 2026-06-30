@@ -7,7 +7,7 @@
 
 set -e
 
-GITHUB_USERNAME="YOUR_GITHUB_USERNAME"   # ← 換成你的 GitHub 帳號
+GITHUB_USERNAME="jesstsai0127"   # ← 換成你的 GitHub 帳號
 REPO_NAME="claude-config"
 REPO_URL="https://github.com/$GITHUB_USERNAME/$REPO_NAME.git"
 CLONE_DIR="$HOME/.claude-config-source"
