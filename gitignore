@@ -1,0 +1,19 @@
+# 機密檔案，絕對不進 git
+.env
+.env.*
+*.pem
+*.key
+*_token*
+*api_key*
+*credentials*
+secrets/
+.claude/settings.local.json
+
+# 系統檔
+.DS_Store
+Thumbs.db
+
+# 備份暫存
+*.tar.gz
+*.bundle
+*.bak
