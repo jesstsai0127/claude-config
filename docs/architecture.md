@@ -7,8 +7,8 @@
 
 | 名稱 | Tailscale hostname | 角色 | 作業系統 | 備註 |
 |---|---|---|---|---|
-| YYDS | （填入實際 hostname） | Master，全時運作 | Ubuntu Linux | n8n、Docker、ccbot 都跑在這 |
-| Windows 工作站 | （填入實際 hostname） | Worker，臨時接入 | Windows + WSL2 | 日常使用機 |
+| YYDS | yyds | Master，全時運作 | Ubuntu Linux | n8n、Docker、ccbot 都跑在這 |
+| hp-desktop | hp-desktop | Worker，臨時接入 | Windows | 目前開發實際會用的第二台機器 |
 | （未來機器） | | | | |
 
 ## 角色定義
@@ -19,9 +19,10 @@
 - 預設所有不需要特定環境（GPU、Windows-only 軟體）的任務都在這裡執行
 - 重大決策一律透過 ccbot 推送到 Telegram，等待 Mr. J 確認後才繼續
 
-### Windows 工作站（Worker）
-- 不是全時開機，任務派工前先確認是否在線（透過 Tailscale ping）
+### hp-desktop（Worker）
+- 不是全時開機，任務派工前先確認是否在線（透過 Tailscale ping 或 `tailscale status`）
 - 用途：需要 Windows 特有環境、或 Mr. J 正在該機器前操作時
+- 目前開發階段只用 YYDS + hp-desktop 兩台機器
 
 ## 派工判斷邏輯
 
@@ -50,6 +51,5 @@
 
 ## 待補充
 
-- [ ] 填入各機器實際 Tailscale hostname
-- [ ] 確認 Windows 工作站的 WSL2 環境是否已安裝 Claude Code + tmux
+- [ ] 確認 hp-desktop 是否已安裝 Claude Code + tmux（若要派工過去執行任務）
 - [ ] 未來新增機器時，回來更新這份文件的機器清單
