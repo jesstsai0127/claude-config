@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Bash(git status)",
       "Bash(git diff*)",
@@ -29,15 +30,6 @@
       "Edit(**)",
       "Write(**)"
     ],
-    "ask": [
-      "Bash(rm *)",
-      "Bash(git push --force*)",
-      "Bash(sudo *)",
-      "Bash(npm install*)",
-      "Bash(ssh *)",
-      "Bash(scp *)",
-      "Bash(git worktree remove*)"
-    ],
     "deny": [
       "Read(.env)",
       "Read(.env.*)",
@@ -47,20 +39,32 @@
       "Read(**/*credentials*)",
       "Read(**/*_token*)",
       "Read(**/*api_key*)"
+    ],
+    "ask": [
+      "Bash(rm *)",
+      "Bash(git push --force*)",
+      "Bash(sudo *)",
+      "Bash(npm install*)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(git worktree remove*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/framework/.local/bin/ccbot hook",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   },
   "sandbox": {
     "enabled": true,
-    "filesystem": {
-      "allowWrite": ["$PWD/**"],
-      "denyRead": [
-        ".env",
-        ".env.*",
-        "**/*.pem",
-        "**/*.key",
-        "**/secrets/**"
-      ]
-    },
     "network": {
       "allowedDomains": [
         "docs.claude.com",
@@ -86,6 +90,19 @@
         "registry.npmjs.org",
         "pypi.org"
       ]
+    },
+    "filesystem": {
+      "allowWrite": [
+        "$PWD/**"
+      ],
+      "denyRead": [
+        ".env",
+        ".env.*",
+        "**/*.pem",
+        "**/*.key",
+        "**/secrets/**"
+      ]
     }
-  }
+  },
+  "theme": "dark"
 }
