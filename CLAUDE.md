@@ -62,9 +62,9 @@
 - Notion 僅用於明確設計給它的結構化任務資料
 
 ## 多機器協同
-- 完整架構說明見 docs/architecture.md，開始任何跨機器任務前先確認該檔案內容是否最新
-- YYDS（Linux，Tailscale hostname: 見 architecture.md）是 master，全時運作，
-  其他機器（Windows 工作站等）是依任務臨時派工的 worker
+- 完整架構說明見 projects/global-spec.md 第 1.2 節（整體架構）跟第 7 節（多機器協作），開始任何跨機器任務前先確認內容是否最新
+- YYDS（Linux，Tailscale hostname: yyds）是 master，全時運作，
+  其他機器（Windows 工作站 hp-desktop 等）是依任務臨時派工的 worker
 - 派工到其他機器前，先確認該機器透過 Tailscale 可連線，並說明「為什麼這個任務需要在那台機器執行」
   （例如需要該機器特有的環境、GPU、或本地檔案）
 - 派工到其他機器是「需要先問」的操作，不在自動執行白名單內
