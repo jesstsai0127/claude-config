@@ -2,7 +2,6 @@
 name: antigravity-review
 description: Have Google Antigravity CLI (agy) review a whole feature's related files together, then verify and fix the real issues it finds. Use when the user wants a second-opinion review before or after implementing changes.
 argument-hint: [feature name or description]
-disable-model-invocation: true
 allowed-tools: Bash(agy -p *) Read Edit Grep
 ---
 
