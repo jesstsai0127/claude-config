@@ -29,6 +29,12 @@ lint/review 工具一樣。
    agy -p "Review these files together as one feature (list cross-file issues too, not just per-file bugs): <檔案清單>. Output as a plain numbered list: file:line - one sentence issue description. If no bugs, say 'no bugs found'. Do not explain your process, just the list."
    ```
 
+   **如果 agy 回覆說它需要更多資訊/上下文才能完成 review**（不是給出結構化清單，而是反問
+   問題、要求補充某個檔案內容、某個函式定義等）：由我自己去找答案（Read 對應檔案、Grep
+   相關定義）再重新呼叫 agy 補上，不要把這個問題丟給使用者處理——使用者要的是結果，
+   不是幫兩個 AI 之間傳話。只有在真的需要使用者才知道的資訊（例如背後的產品決策、
+   為什麼這樣設計）時，才回頭問使用者。
+
 3. **解析輸出**：把 agy 回傳的每一條 `file:line - 描述` 拆開。
 
 4. **逐條驗證並給出自己的立場**：對每一條，用 Read 打開對應檔案的該行附近，自己判斷是否
