@@ -1,24 +1,32 @@
 ---
 name: antigravity-review
-description: Have Google Antigravity CLI (agy) review code, then verify and fix the real issues it finds. Use when the user wants a second-opinion review before or after implementing changes.
-argument-hint: [path or description of what to review]
+description: Have Google Antigravity CLI (agy) review a whole feature's related files together, then verify and fix the real issues it finds. Use when the user wants a second-opinion review before or after implementing changes.
+argument-hint: [feature name or description]
 disable-model-invocation: true
 allowed-tools: Bash(agy -p *) Read Edit Grep
 ---
 
 ## 目的
-用 antigravity CLI（`agy`）的 headless 模式對指定範圍做一輪 review，取得結構化清單後，
-自己逐條驗證再動手修，不盲目照單全收 antigravity 的輸出——跟對待任何 lint/review 工具一樣。
+用 antigravity CLI（`agy`）的 headless 模式對「一個功能涉及的所有檔案」一次做一輪 review，
+取得結構化清單後，自己逐條驗證再動手修，不盲目照單全收 antigravity 的輸出——跟對待任何
+lint/review 工具一樣。
+
+**範圍是功能，不是單一檔案**：跨檔案的問題（例如 A 檔案呼叫 B 檔案函式的方式不對、共用的資料
+結構在多處假設不一致）只有把相關檔案放進同一次 review 才看得到，逐檔案分開跑會漏掉。
 
 ## 步驟
 
-1. **決定 review 範圍**：`$ARGUMENTS` 是要 review 的檔案/目錄/描述。若為空，改用
-   `git diff --stat` 找出目前有異動的檔案當範圍，並跟使用者確認範圍是否正確。
+1. **界定功能範圍**：`$ARGUMENTS` 是功能名稱或描述。找出這個功能涉及的完整檔案集合：
+   - 先查最近跟這個功能相關的 commit（`git log --oneline --all -- <關鍵字>` 或
+     `git log -p` 找相關檔名）
+   - 用 Grep 找功能關鍵字/函式名稱牽涉到的檔案
+   - 不確定的話，列出目前找到的檔案清單，跟使用者確認範圍完整、沒有漏掉相關檔案
+   - 若 `$ARGUMENTS` 為空，改用 `git diff --stat` 抓目前有異動的檔案當範圍，一樣要確認
 
-2. **呼叫 agy**：在目標目錄下執行，依範圍調整 prompt 內容與 timeout（多檔案/整個 repo
-   拉長 timeout，agy 執行時間可能超過預設值）：
+2. **一次呼叫 agy，餵入完整檔案集合**：不要逐檔案個別呼叫。把整組相關檔案路徑列進同一個
+   prompt，讓 agy 在同一次 review 裡看到檔案之間的關聯。檔案多的話拉長 timeout：
    ```bash
-   agy -p "Review <範圍> for bugs only. Output as a plain numbered list: file:line - one sentence issue description. If no bugs, say 'no bugs found'. Do not explain your process, just the list."
+   agy -p "Review these files together as one feature (list cross-file issues too, not just per-file bugs): <檔案清單>. Output as a plain numbered list: file:line - one sentence issue description. If no bugs, say 'no bugs found'. Do not explain your process, just the list."
    ```
 
 3. **解析輸出**：把 agy 回傳的每一條 `file:line - 描述` 拆開。
