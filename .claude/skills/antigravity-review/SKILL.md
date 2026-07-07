@@ -23,9 +23,10 @@ lint/review 工具一樣。
    - 若 `$ARGUMENTS` 為空，改用 `git diff --stat` 抓目前有異動的檔案當範圍，一樣要確認
 
 2. **一次呼叫 agy，餵入完整檔案集合**：不要逐檔案個別呼叫。把整組相關檔案路徑列進同一個
-   prompt，讓 agy 在同一次 review 裡看到檔案之間的關聯。檔案多的話拉長 timeout：
+   prompt，讓 agy 在同一次 review 裡看到檔案之間的關聯。**一定要帶 `--model "Gemini 3.1 Pro (High)"`**
+   ——品質優先於速度/成本，預設值（Flash Medium）不夠強。檔案多的話拉長 timeout：
    ```bash
-   agy -p "Review these files together as one feature (list cross-file issues too, not just per-file bugs): <檔案清單>. Output as a plain numbered list: file:line - one sentence issue description. If no bugs, say 'no bugs found'. Do not explain your process, just the list."
+   agy -p "Review these files together as one feature (list cross-file issues too, not just per-file bugs): <檔案清單>. Output as a plain numbered list: file:line - one sentence issue description. If no bugs, say 'no bugs found'. Do not explain your process, just the list." --model "Gemini 3.1 Pro (High)"
    ```
 
    **如果 agy 回覆說它需要更多資訊/上下文才能完成 review**（不是給出結構化清單，而是反問
